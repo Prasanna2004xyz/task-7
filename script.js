@@ -1,1 +1,32 @@
-const userDataContainer = document.getElementById('userData');\nconst reloadBtn = document.getElementById('reloadBtn');\n\nconst fetchUserData = async () => {\n    try {\n        const response = await fetch('https://jsonplaceholder.typicode.com/users');\n        if (!response.ok) {\n            throw new Error('Network response was not ok');\n        }\n        const users = await response.json();\n        displayUsers(users);\n    } catch (error) {\n        userDataContainer.innerHTML = `<p>Error fetching data: ${error.message}</p>`;\n    }\n};\n\nconst displayUsers = (users) => {\n    userDataContainer.innerHTML = '';\n    users.forEach(user => {\n        const userDiv = document.createElement('div');\n        userDiv.classList.add('user');\n        userDiv.innerHTML = `<h2>${user.name}</h2>\n            <p>Email: ${user.email}</p>\n            <p>Address: ${user.address.street}, ${user.address.city}</p>`;\n        userDataContainer.appendChild(userDiv);\n    });\n};\n\nreloadBtn.addEventListener('click', fetchUserData);\n\ndocument.addEventListener('DOMContentLoaded', fetchUserData);
+const userDataContainer = document.getElementById('userData');
+const reloadBtn = document.getElementById('reloadBtn');
+
+const fetchUserData = async () => {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const users = await response.json();
+        displayUsers(users);
+    } catch (error) {
+        userDataContainer.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+    }
+};
+
+const displayUsers = (users) => {
+    userDataContainer.innerHTML = '';
+    users.forEach(user => {
+        const userDiv = document.createElement('div');
+        userDiv.classList.add('user');
+        userDiv.innerHTML = `
+            <h2>${user.name}</h2>
+            <p>Email: ${user.email}</p>
+            <p>Address: ${user.address.street}, ${user.address.city}</p>
+        `;
+        userDataContainer.appendChild(userDiv);
+    });
+};
+
+reloadBtn.addEventListener('click', fetchUserData);
+document.addEventListener('DOMContentLoaded', fetchUserData);
